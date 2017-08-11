@@ -1,3 +1,5 @@
+const childProcess = require('child_process');
+
 module.exports = {
   "make_targets": {
     "win32": [
@@ -10,7 +12,14 @@ module.exports = {
       "deb"
     ]
   },
-  "electronPackagerConfig": {},
+  "electronPackagerConfig": {
+    afterCopy: [
+      function(buildPath, electronVersion, platform, arch, callback) {
+        childProcess.execSync(`chmod a+x ${buildPath}`);
+        callback();
+      }
+    ]
+  },
   "electronWinstallerConfig": {
     "name": ""
   },
